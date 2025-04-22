@@ -25,5 +25,12 @@ fn main() {
         let v = vec![1, 2, 3, 4, 5];
 
         println!("The value at 0 is: {}",v[0]);
+        let x = five();
 
+        println!("The value of x is: {x}");
 }
+//shows implicit return of an expression (no ;), type must be defined for return, 
+// statements end with ; and do not return
+fn five() -> i32 {
+        5
+    }
