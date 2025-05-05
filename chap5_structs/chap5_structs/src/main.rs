@@ -34,6 +34,30 @@ fn main() {
     //you can also have a unit-like struct with no values
     let subject = AlwaysEqual;
 
+    //looking at methods now
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        rect1.area()
+    );
+
+    let rect2 = Rectangle {
+        width: 10,
+        height: 40,
+    };
+    let rect3 = Rectangle {
+        width: 60,
+        height: 45,
+    };
+
+    println!("Can rect1 hold rect2? {}", rect1.can_hold(&rect2));
+    println!("Can rect1 hold rect3? {}", rect1.can_hold(&rect3));
+    //call on the constructor
+    let sq = Rectangle::square(3);
 
 }
 
@@ -60,3 +84,27 @@ struct Point(i32, i32, i32);
 
 //unit-like struct
 struct AlwaysEqual;
+
+//define the struct
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+//implementing methods for the struct
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+    //method that takes another struct as an argument, this can even be any other type
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+    //function that returns an object which is why it has no &self call
+    //but does have Self which aliases Rectangle
+    fn square(size: u32) -> Self {
+        Self {
+            width: size,
+            height: size,
+        }
+    }
+}
