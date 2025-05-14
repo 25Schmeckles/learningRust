@@ -47,18 +47,18 @@ pub fn add_two_numbers(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> 
             l2nums.push(0);
         }
     }
-    //reverse each vector, turn it into an integer, add, then convert back to vec and reverse
-    l1nums.reverse();
-    let l1num: u128 = l1nums.iter().fold(0, |acc, &d| acc * 10 + d as u128);
-    l2nums.reverse();
-    let l2num: u128 = l2nums.iter().fold(0, |acc, &d| acc * 10 + d as u128);
-    let added_nums: u128 = l1num as u128 + l2num as u128;
-    let mut added_nums: Vec<i32> = added_nums
-        .to_string()
-        .chars()
-        .map(|c| c.to_digit(10).unwrap() as i32)
-        .collect();
-    added_nums.reverse();
+    //conduct addition on arbitrary sized vector of numbers to avoid overflow
+    let mut i = 0;
+    let mut carry = 0;
+    let mut added_nums = Vec::new();
+    while i < l1nums.len() || i < l2nums.len() || carry > 0 {
+        let x = if i < l1nums.len() { l1nums[i] } else { 0 };
+        let y = if i < l2nums.len() { l2nums[i] } else { 0 };
+        let sum = x + y + carry;
+        added_nums.push(sum % 10);
+        carry = sum / 10;
+        i += 1;
+    }
     //for creating/traversing our new output list
     let mut new_head: Option<Box<ListNode>> = None;
     let mut tail_ref = &mut new_head;
