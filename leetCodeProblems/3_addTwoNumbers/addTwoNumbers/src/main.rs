@@ -29,17 +29,23 @@ fn main() {
 }
 
 pub fn add_two_numbers(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-   let mut added_number = 0;
-   let next_node = None;
-    if let Some(l1_unwrap) = &l1 {
-        added_number = added_number + &l1_unwrap.val;
+    let mut currentl1 = l1;
+    let mut currentl2 = l2;
+    
+    let mut new_head: Option<Box<ListNode>> = None;
+    let mut tail_ref = &mut new_head;
+    
+    //loops through both lists simultenously and creates a new third list
+    while let (Some(l1_traverse), Some(l2_traverse)) = (currentl1, currentl2) {
+        let added_numbers = Box::new(ListNode {
+            val: l1_traverse.val + l2_traverse.val,
+            next: None,
+        });
+        *tail_ref = Some(added_numbers);
+        tail_ref = &mut tail_ref.as_mut().unwrap().next;
+        //traverse next on the supplied lists
+        currentl1 = l1_traverse.next;
+        currentl2 = l2_traverse.next;
     }
-    if let Some(l2_unwrap) = &l2 {
-        added_number = added_number + &l2_unwrap.val;
-    }
-    let boxed_list_node = Box::new(ListNode {
-        val: added_number,
-        next: next_node,
-    });
-    return Some(boxed_list_node);
+    new_head
 }
