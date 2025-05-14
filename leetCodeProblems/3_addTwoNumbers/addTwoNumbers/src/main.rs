@@ -47,29 +47,23 @@ pub fn add_two_numbers(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> 
             l2nums.push(0);
         }
     }
-    //conduct addition on arbitrary sized vector of numbers to avoid overflow
+    //conduct LSD addition as we traverse and create new nodes
+    let mut new_head: Option<Box<ListNode>> = None;
+    let mut tail_ref = &mut new_head;
     let mut i = 0;
     let mut carry = 0;
-    let mut added_nums = Vec::new();
     while i < l1nums.len() || i < l2nums.len() || carry > 0 {
         let x = if i < l1nums.len() { l1nums[i] } else { 0 };
         let y = if i < l2nums.len() { l2nums[i] } else { 0 };
         let sum = x + y + carry;
-        added_nums.push(sum % 10);
-        carry = sum / 10;
-        i += 1;
-    }
-    //for creating/traversing our new output list
-    let mut new_head: Option<Box<ListNode>> = None;
-    let mut tail_ref = &mut new_head;
-    //create new list from our vector and return its head
-    for number in added_nums.iter() {
         let added_numbers = Box::new(ListNode {
-        val: *number,
+        val: sum % 10,
         next: None,
         });
+        carry = sum / 10;
         *tail_ref = Some(added_numbers);
         tail_ref = &mut tail_ref.as_mut().unwrap().next;
+        i += 1;
     }
     new_head
 }
