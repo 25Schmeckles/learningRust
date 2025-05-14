@@ -30,40 +30,29 @@ fn main() {
 pub fn add_two_numbers(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
     let mut currentl1 = l1;
     let mut currentl2 = l2;
-    let mut l1nums = vec![];
-    let mut l2nums = vec![];
-    //loops through both lists simultenously collecting the values and padding with 0s in case of unever list sizes
-    while currentl1.is_some() || currentl2.is_some() {
-        if let Some(node) = currentl1 {
-            l1nums.push(node.val);
-            currentl1 = node.next;
-        } else {
-            l1nums.push(0);
-        }
-        if let Some(node) = currentl2 {
-            l2nums.push(node.val);
-            currentl2 = node.next;
-        } else {
-            l2nums.push(0);
-        }
-    }
-    //conduct LSD addition as we traverse and create new nodes
     let mut new_head: Option<Box<ListNode>> = None;
     let mut tail_ref = &mut new_head;
-    let mut i = 0;
     let mut carry = 0;
-    while i < l1nums.len() || i < l2nums.len() || carry > 0 {
-        let x = if i < l1nums.len() { l1nums[i] } else { 0 };
-        let y = if i < l2nums.len() { l2nums[i] } else { 0 };
+    //loops through until you reach the end of both lists and carry is 0
+    //at each step it conducts least significant digit (LSD) addition
+    //then it links the list and returns the head
+    while currentl1.is_some() || currentl2.is_some() || carry > 0 {
+        let mut x = 0;
+        let mut y = 0;
+        //gets value from nodes
+        if let Some(node) = currentl1 {
+            x = node.val;
+            currentl1 = node.next;
+        }
+        if let Some(node) = currentl2 {
+            y = node.val;
+            currentl2 = node.next;
+        }
         let sum = x + y + carry;
-        let added_numbers = Box::new(ListNode {
-        val: sum % 10,
-        next: None,
-        });
+        let added_numbers = Box::new(ListNode::new(sum % 10));
         carry = sum / 10;
         *tail_ref = Some(added_numbers);
         tail_ref = &mut tail_ref.as_mut().unwrap().next;
-        i += 1;
     }
     new_head
 }
