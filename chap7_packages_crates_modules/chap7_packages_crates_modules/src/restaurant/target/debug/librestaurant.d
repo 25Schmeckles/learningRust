@@ -1,0 +1,1 @@
+C:\Users\Sean\Documents\RustProjects\chap7_packages_crates_modules\chap7_packages_crates_modules\src\restaurant\target\debug\librestaurant.rlib: C:\Users\Sean\Documents\RustProjects\chap7_packages_crates_modules\chap7_packages_crates_modules\src\restaurant\src\lib.rs
