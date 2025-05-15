@@ -1,0 +1,1 @@
+C:\Users\Sean\Documents\RustProjects\chap8_common_collections\chapt8_common_collections\target\debug\chapt8_common_collections.exe: C:\Users\Sean\Documents\RustProjects\chap8_common_collections\chapt8_common_collections\src\main.rs
