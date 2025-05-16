@@ -1,27 +1,30 @@
+use std::collections::HashMap;
+use std::collections::hash_map::Entry::{Occupied,Vacant};
 fn main() {
-    println!("{}",length_of_longest_substring("abcabcbb".to_string()));
+    println!("{}",length_of_longest_substring("abcabcabc".to_string()));
 }
 pub fn length_of_longest_substring(s: String) -> i32 {
-    let mut max_len = 1;
-    let mut current_max = 1;
-    let s: Vec<char> = s.chars().collect();
-    let mut i = 0;
-
-    while i < s.len() - 1 {
-        if s[i] == s[i+1] {
-            println!("{}={}",s[i],s[i+1]);
-            current_max = 1;
+    let mut sub_strings = HashMap::new();
+    for mut i in 0..s.len() {
+        for mut j in i + 1..=s.len() {
+            println!("{}", &s[i..j]);
+            let key = &s[i..j];
+            match sub_strings.entry(key) {
+                Occupied(mut entry) => {
+                    println!("Key already exists with value: {}", entry.get());
+                    i = j+1;
+                    j = i+1;
+                }
+                Vacant(entry) => {
+                    println!("Inserting new key");
+                    entry.insert(j-i);
+                }
+            }
         }
-        else {
-            println!("{}!{}",s[i],s[i+1]);
-            current_max +=1;
-        }
-        if max_len < current_max {
-            max_len = current_max; 
-        }
-        i += 1;
     }
-    return max_len as i32;
+    if let Some(max_val) = sub_strings.values().max() {
+        return *max_val as i32;
+    }
+    -1
 }
-//idea, put all substrings into hashmap of substring -> length pairs, then return the max length, runtime is exponential so this is sad only thing i can think of to shorten it is if there is
-//some condition where i know a repetition has happened to continuing wont help but by that point ive already done the exponential part so maybe there is no way out of this?
+//needs work, currently puts in all substrings, i can probably do something with this
