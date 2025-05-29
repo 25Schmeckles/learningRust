@@ -71,7 +71,7 @@ impl Point<f32> {
 }
 
 mod lib;
-use lib::{SocialPost, NewsArticle, Summary};
+use lib::{SocialPost, Summary};
 fn main() {
     //each mixes the types differently and still work!
     let both_integer = PointMixMatch { x: 5, y: 10 };
@@ -102,26 +102,14 @@ fn main() {
     println!("p.x = {}", p.x());
     //traits
     let post = SocialPost {
-    username: String::from("horse_ebooks"),
-    content: String::from(
-        "of course, as you probably already know, people",
-        ),
-    reply: false,
-    repost: false,
-    };
-
-    println!("1 new social post: {}", post.summarize());    
-        //made default implementation for newsarticle!
-        let article = NewsArticle {
-        headline: String::from("Penguins win the Stanley Cup Championship!"),
-        location: String::from("Pittsburgh, PA, USA"),
-        author: String::from("Iceburgh"),
+        username: String::from("horse_ebooks"),
         content: String::from(
-            "The Pittsburgh Penguins once again are the best \
-             hockey team in the NHL.",
+            "of course, as you probably already know, people",
         ),
+        reply: false,
+        repost: false,
     };
 
-    println!("New article available! {}", article.summarize());
+    println!("1 new social post: {}", post.summarize());
     
     }
