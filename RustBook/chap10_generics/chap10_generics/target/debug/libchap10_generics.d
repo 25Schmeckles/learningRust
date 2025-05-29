@@ -1,0 +1,1 @@
+C:\Users\Sean\Documents\RustProjects\RustBook\chap10_generics\chap10_generics\target\debug\libchap10_generics.rlib: C:\Users\Sean\Documents\RustProjects\RustBook\chap10_generics\chap10_generics\src\lib.rs
