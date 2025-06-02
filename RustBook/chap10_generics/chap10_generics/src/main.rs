@@ -112,4 +112,19 @@ fn main() {
 
     println!("1 new social post: {}", post.summarize());
     
-    }
+    //lifetimes set the scope for references, main purpose is preventing dangling references
+    //we can't explititly define lifetimes but we can explicitly reference them
+    /*
+    &i32        // a reference
+    &'a i32     // a reference with an explicit lifetime
+    &'a mut i32 // a mutable reference with an explicit lifetime
+    */
+    println!("{}",longest("abc","abcd"));
+}
+//this function would not work without the lifetimes explicitly because it does not know
+//if we are returning x or y
+//so we have arbitrary lifetime 'a, and each input and the return all have lifetime equivalent to this
+//the borrow checker will check if this is actually true and reject the code if it's not
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() { x } else { y }
+}
