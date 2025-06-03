@@ -128,3 +128,6 @@ fn main() {
 fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
     if x.len() > y.len() { x } else { y }
 }
+//all references need explicit lifetimes but normal patterns have been inferred because of the 
+//wasted time of rewriting the same ones over and over called "lifetime elision"
+
