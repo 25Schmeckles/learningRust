@@ -11,3 +11,5 @@ pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
 //such that max_left A < min_right_B and
 //          max_left B < min_right_A
 //          these conditions show that the partition is placed in the same place that the median would exist in the combined array
+
+//test commit from laptop
