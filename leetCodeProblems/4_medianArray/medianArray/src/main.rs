@@ -28,6 +28,7 @@ pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
     return result[result.len()/2] as f64;
 }
 */
+/*
 //regular binary search
 pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
     let mut low = 0;
@@ -53,10 +54,45 @@ pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
     }
     return -1.0;
 }
+*/
+//log(m+n) search
+use std::i32::{MIN, MAX};
+use std::cmp::{max, min};
+pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
+    let (a, b) = if nums1.len() <= nums2.len() {
+        (nums1, nums2)
+    } else {
+        (nums2, nums1)
+    };
+    let m = a.len();
+    let n = b.len();
+    let half_len = (m + n + 1) / 2;
 
+    let mut low = 0;
+    let mut high = m;
 
-//to do this in log(o+m) instead of merging and then searching, we must search the boundary space
-//through use of a binary search meeting the conditions of placing a partition in lists A and B
-//such that max_left A < min_right_B and
-//          max_left B < min_right_A
-//          these conditions show that the partition is placed in the same place that the median would exist in the combined array
+    while low <= high {
+        let i = (low + high) / 2;
+        let j = half_len - i;
+
+        //set to MIN if smaller partition has no elements, or MAX if larger has no elements, otherwise set it to the desired
+        let a_left = if i == 0 { MIN } else { a[i - 1] };
+        let a_right = if i == m { MAX } else { a[i] };
+        let b_left = if j == 0 { MIN } else { b[j - 1] };
+        let b_right = if j == n { MAX } else { b[j] };
+        //check that the median condition is met, then return appropriate value for even/odd cases
+        if a_left <= b_right && b_left <= a_right {
+            if (m + n) % 2 == 0 {
+                return (f64::from(max(a_left, b_left)) +
+                        f64::from(min(a_right, b_right))) / 2.0;
+            } else {
+                return f64::from(max(a_left, b_left));
+            }
+        } else if a_left > b_right {
+            high = i - 1;
+        } else {
+            low = i + 1;
+        }
+    }
+    return -1.0;
+}
