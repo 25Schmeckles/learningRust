@@ -2,6 +2,7 @@ fn main() {
     let string = String::from("a");
     println!("{}",is_palindrome(string));
 }
+//i should probably make this return an Option(string) because i will take ownership and then the substring is gone costing efficiency!
 fn is_palindrome(s: String) -> bool 
 {
     let chars: Vec<char> = s.chars().collect();
@@ -14,6 +15,7 @@ fn is_palindrome(s: String) -> bool
     }
     true
 }
+
 //create function that checks if arbitrary string is a palindrome, checking middle to out,
 //then the driving function will have to rattle off the strings searching by middle character
 //starting at the middle then moving outward
