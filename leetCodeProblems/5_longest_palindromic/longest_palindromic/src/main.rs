@@ -1,23 +1,48 @@
 fn main() {
-    let string = String::from("a");
-    println!("{}",is_palindrome(string));
+    println!("{}",longest_palindrome("abcdd".to_string()));
 }
-//i should probably make this return an Option(string) because i will take ownership and then the substring is gone costing efficiency!
-fn is_palindrome(s: String) -> bool 
-{
+//normal method (expand around center) is O(N^2) worst case, will add Manacher's algorithm which is O(n)
+fn longest_palindrome(s: String) -> String {
     let chars: Vec<char> = s.chars().collect();
     let len = chars.len();
-    
-    for i in 0..(len / 2) {
-        if chars[i] != chars[len - 1 - i] {
-            return false;
+    let mut best = "";
+
+    for center in 0..len {
+        // Odd-length palindromes
+        let mut l = center;
+        let mut r = center;
+        while l > 0 && r < len - 1 {
+            if chars[l - 1] == chars[r + 1] {
+                l -= 1;
+                r += 1;
+            } else {
+                break;
+            }
+        }
+        if r - l + 1 > best.len() {
+            best = &s[l..=r];
+        }
+        // Even-length palindromes (double letter center)
+        if center + 1 < len && chars[center] == chars[center + 1] {
+            l = center;
+            r = center + 1;
+            while l > 0 && r < len - 1 {
+                if chars[l - 1] == chars[r + 1] {
+                    l -= 1;
+                    r += 1;
+                } else {
+                    break;
+                }
+            }
+            if r - l + 1 > best.len() {
+                best = &s[l..=r];
+            }
         }
     }
-    true
+
+    best.to_string()
 }
 
-//create function that checks if arbitrary string is a palindrome, checking middle to out,
-//then the driving function will have to rattle off the strings searching by middle character
-//starting at the middle then moving outward
-
-//maybe not, maybe search starting in the middle of a word then check moving outward?
+fn is_palindrome(s: &[char]) -> bool {
+    s.iter().eq(s.iter().rev())
+}
